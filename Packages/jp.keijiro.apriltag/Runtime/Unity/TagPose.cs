@@ -11,11 +11,18 @@ public struct TagPose
     public Vector3 Position { get; }
     public Quaternion Rotation { get; }
 
-    public TagPose(int id, Vector3 position, Quaternion rotation)
+    public Vector2 ImagePosition { get; }
+
+    public TagPose(
+        int id,
+        Vector3 position,
+        Quaternion rotation,
+        Vector2 imagePosition)
     {
         ID = id;
         Position = position;
         Rotation = rotation;
+        ImagePosition = imagePosition;
     }
 }
 

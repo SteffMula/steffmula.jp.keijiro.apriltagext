@@ -3,7 +3,7 @@ using System.Linq;
 using UI = UnityEngine.UI;
 using Klak.TestTools;
 
-sealed class DetectionTest : MonoBehaviour
+sealed class DetectionTestOld : MonoBehaviour
 {
     [SerializeField] ImageSource _source = null;
     [SerializeField] int _decimation = 4;

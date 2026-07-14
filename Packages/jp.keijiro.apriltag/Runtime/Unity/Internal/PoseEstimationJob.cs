@@ -1,6 +1,7 @@
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace AprilTag {
 
@@ -13,9 +14,15 @@ struct PoseEstimationJob : Unity.Jobs.IJobParallelFor
     public struct Input
     {
         unsafe Interop.Detection* p;
+        public Vector2 ImagePosition;
 
         unsafe public Input(ref Interop.Detection r)
-          => p = (Interop.Detection*)Interop.Util.AsPointer(ref r);
+        {
+            p = (Interop.Detection*)Interop.Util.AsPointer(ref r);
+            ImagePosition = new Vector2(
+            (float)r.Center.x,
+            (float)r.Center.y);
+        }
 
         unsafe public ref Interop.Detection Ref
           => ref Interop.Util.AsRef<Interop.Detection>(p);
@@ -55,7 +62,7 @@ struct PoseEstimationJob : Unity.Jobs.IJobParallelFor
         var rot = math.quaternion(pose.R.AsFloat3x3());
         rot = rot.value * math.float4(-1, 1, -1, 1);
 
-        _output[i] = new TagPose(_input[i].Ref.ID, pos, rot);
+        _output[i] = new TagPose(_input[i].Ref.ID, pos, rot, _input[i].ImagePosition);
     }
 }
 
